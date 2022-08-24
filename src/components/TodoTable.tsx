@@ -45,7 +45,7 @@ export const TodoTable: FC<Props> = ({ todos, selectedTodoId = 0 }) => {
             </td>
             <td>
               <Link
-                to={`/todos/${todo.id}`}
+                to={isSelected(todo) ? '../' : `../${todo.id}`}
                 className={classNames('button', {
                   'is-info': isSelected(todo),
                 })}

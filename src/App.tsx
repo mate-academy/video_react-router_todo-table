@@ -1,46 +1,10 @@
-import { todos } from './data/todos';
-import { TodoTable } from './components/TodoTable';
-import { Link, Navigate, NavLink, Route, Routes, useParams } from 'react-router-dom';
-import classNames from 'classnames';
-
-export const TodosPage = () => {
-  const { todoId = 0 } = useParams();
-
-  return <>
-    <h1 className="title">Todos Page</h1>
-
-    <TodoTable
-      todos={todos}
-      selectedTodoId={+todoId}
-    />
-  </>;
-};
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { MainNav } from './components/MainNav';
+import { TodosPage } from './pages/TodosPage';
 
 export const App = () => {
   return <>
-    <nav className="navbar is-light px-3">
-      <div className="navbar-brand">
-        <Link to="/" className="navbar-item">
-          <img src="/logo.svg" alt="MA" className="logo" />
-        </Link>
-
-        <NavLink
-          to="/"
-          className={({ isActive }) => classNames('navbar-item', { 'is-active': isActive })}
-          style={({ isActive }) => ({ color: isActive ? 'red' : 'black' })}
-        >
-          Home
-        </NavLink>
-
-        <NavLink
-          to="todos"
-          className={({ isActive }) => classNames('navbar-item', { 'is-active': isActive })}
-          style={({ isActive }) => ({ color: isActive ? 'red' : 'black' })}
-        >
-          Todos
-        </NavLink>
-      </div>
-    </nav>
+    <MainNav />
 
     <div className="section">
       <Routes>
