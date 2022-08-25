@@ -1,6 +1,7 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
 import { MainNav } from './components/MainNav';
 import { TodosPage } from './pages/TodosPage';
+
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 export const App = () => {
   return <>
