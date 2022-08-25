@@ -10,10 +10,7 @@ export const App = () => {
     <MainNav />
 
     <div className="section">
-      <p className="title">
-        {location.pathname}
-        {location.search}
-      </p>
+      <p className="subtitle is-3 has-text-danger">{location.search}</p>
 
       <Routes>
         <Route path="todos">

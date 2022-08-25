@@ -4,7 +4,7 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import './index.css';
 import { App } from './App';
 
-import { HashRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 const Root = () => (
   <Router>

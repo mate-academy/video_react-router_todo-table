@@ -8,7 +8,7 @@ export const Filters = () => {
     setPage(+event.target.value);
   };
 
-  const onQueryChange = () => (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
   };
 
@@ -19,6 +19,7 @@ export const Filters = () => {
           <div className="select">
             <select value={page} onChange={onPageChange}>
               <option value="0">No page</option>
+
               {[1, 2, 3, 4, 5].map(page => (
                 <option key={page}>
                   {page}
@@ -28,9 +29,11 @@ export const Filters = () => {
           </div>
         </div>
 
-        <div className="control is-expanded">
-          <input value={query} onChange={onQueryChange}
-            type="text"
+        <div className="control">
+          <input
+            type="search"
+            defaultValue={query}
+            onChange={onQueryChange}
             className="input"
             placeholder="Enter a query"
           />
