@@ -1,15 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 export const Filters = () => {
-  const [page, setPage] = useState(0);
-  const [query, setQuery] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = searchParams.get('page') || '';
+  const query = searchParams.get('query') || '';
 
   const onPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setPage(+event.target.value);
+    if (!event.target.value) {
+      searchParams.delete('page');
+    } else {
+      searchParams.set('page', event.target.value);
+    }
+
+    setSearchParams(searchParams);
   };
 
   const onQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value);
+    if (!event.target.value) {
+      searchParams.delete('query');
+    } else {
+      searchParams.set('query', event.target.value);
+    }
+
+    setSearchParams(searchParams);
   };
 
   return (
@@ -18,7 +32,7 @@ export const Filters = () => {
         <div className="control">
           <div className="select">
             <select value={page} onChange={onPageChange}>
-              <option value="0">No page</option>
+              <option value="">No page</option>
 
               {[1, 2, 3, 4, 5].map(page => (
                 <option key={page}>
@@ -32,7 +46,7 @@ export const Filters = () => {
         <div className="control">
           <input
             type="search"
-            defaultValue={query}
+            value={query}
             onChange={onQueryChange}
             className="input"
             placeholder="Enter a query"
