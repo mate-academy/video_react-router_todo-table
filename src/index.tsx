@@ -4,12 +4,12 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import './index.css';
 import { App } from './App';
 
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
 
 const Root = () => (
-  <BrowserRouter>
+  <Router>
     <App />
-  </BrowserRouter>
+  </Router>
 );
 
 const root = ReactDOM.createRoot(

@@ -1,13 +1,20 @@
 import { MainNav } from './components/MainNav';
 import { TodosPage } from './pages/TodosPage';
 
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 export const App = () => {
+  const location = useLocation();
+
   return <>
     <MainNav />
 
     <div className="section">
+      <p className="title">
+        {location.pathname}
+        {location.search}
+      </p>
+
       <Routes>
         <Route path="todos">
           <Route index element={<TodosPage />} />
