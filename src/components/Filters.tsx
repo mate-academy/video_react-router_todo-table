@@ -6,24 +6,24 @@ export const Filters = () => {
   const page = searchParams.get('page') || '';
   const query = searchParams.get('query') || '';
 
-  const onPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    if (!event.target.value) {
-      searchParams.delete('page');
-    } else {
-      searchParams.set('page', event.target.value);
-    }
+  function updateSearch(params: { [key: string]: string | null }) {
+    Object.entries(params).forEach(([key, value]) => {
+      if (value === null) {
+        searchParams.delete(key);
+      } else {
+        searchParams.set(key, value);
+      }
+    });
 
     setSearchParams(searchParams);
+  }
+
+  const onPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    updateSearch({ page: event.target.value || null });
   };
 
   const onQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.value) {
-      searchParams.delete('query');
-    } else {
-      searchParams.set('query', event.target.value);
-    }
-
-    setSearchParams(searchParams);
+    updateSearch({ query: event.target.value || null });
   };
 
   return (
