@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import classNames from 'classnames';
 import { Todo } from '../types';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useResolvedPath } from 'react-router-dom';
 
 type Props = {
   todos: Todo[];
@@ -10,6 +10,8 @@ type Props = {
 
 export const TodoTable: FC<Props> = ({ todos, selectedTodoId = 0 }) => {
   const isSelected = (todo: Todo) => todo.id === selectedTodoId;
+  const location = useLocation();
+  const parentPath = useResolvedPath('../').pathname;
 
   return (
     <table className="table is-striped">
@@ -43,7 +45,10 @@ export const TodoTable: FC<Props> = ({ todos, selectedTodoId = 0 }) => {
             </td>
             <td>
               <Link
-                to={isSelected(todo) ? '../' : `../${todo.id}`}
+                to={{
+                  pathname: isSelected(todo) ? parentPath : parentPath + todo.id,
+                  search: location.search,
+                }}
                 className={classNames('button', { 'is-info': isSelected(todo) })}
               >
                 <span className="icon">
