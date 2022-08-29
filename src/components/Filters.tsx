@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 
@@ -5,11 +6,18 @@ export const Filters = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get('page') || '';
   const query = searchParams.get('query') || '';
+  const letters = searchParams.getAll('letters') || [];
 
-  function updateSearch(params: { [key: string]: string | null }) {
+  function updateSearch(params: { [key: string]: string[] | string | null }) {
     Object.entries(params).forEach(([key, value]) => {
       if (value === null) {
         searchParams.delete(key);
+      } else if (Array.isArray(value)) {
+        searchParams.delete(key);
+
+        value.forEach(part => {
+          searchParams.append(key, part);
+        });
       } else {
         searchParams.set(key, value);
       }
@@ -18,6 +26,7 @@ export const Filters = () => {
     setSearchParams(searchParams);
   }
 
+  //#region page and query
   const onPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     updateSearch({ page: event.target.value || null });
   };
@@ -25,6 +34,7 @@ export const Filters = () => {
   const onQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     updateSearch({ query: event.target.value || null });
   };
+  //#endregion
 
   return (
     <div className="block">
@@ -56,12 +66,30 @@ export const Filters = () => {
 
       <div className="buttons">
         {['a', 'e', 'i', 'o', 'u'].map(letter => (
-          <button key={letter} className="button">
+          <button
+            key={letter}
+            className={classNames('button', { 'is-info': letters.includes(letter) })}
+            onClick={() => {
+              updateSearch({
+                letters: letters.includes(letter)
+                  ? letters.filter(l => l !== letter)
+                  : [...letters, letter ],
+              })
+            }}
+          >
             {letter}
           </button>
         ))}
 
-        <button className="button">Clear All</button>
+        <button
+          className="button"
+          disabled={letters.length === 0}
+          onClick={() => {
+            updateSearch({ letters: null })
+          }}
+        >
+          Clear All
+        </button>
       </div>
     </div>
   )
