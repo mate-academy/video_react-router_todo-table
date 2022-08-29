@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 export const Filters = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -8,7 +8,7 @@ export const Filters = () => {
   const query = searchParams.get('query') || '';
   const letters = searchParams.getAll('letters') || [];
 
-  function updateSearch(params: { [key: string]: string[] | string | null }) {
+  function getSearchWith(params: { [key: string]: string[] | string | null }) {
     Object.entries(params).forEach(([key, value]) => {
       if (value === null) {
         searchParams.delete(key);
@@ -23,16 +23,20 @@ export const Filters = () => {
       }
     });
 
-    setSearchParams(searchParams);
+    return searchParams.toString();
   }
 
   //#region page and query
   const onPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    updateSearch({ page: event.target.value || null });
+    setSearchParams(
+      getSearchWith({ page: event.target.value || null })
+    );
   };
 
   const onQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    updateSearch({ query: event.target.value || null });
+    setSearchParams(
+      getSearchWith({ query: event.target.value || null }),
+    );
   };
   //#endregion
 
@@ -66,30 +70,27 @@ export const Filters = () => {
 
       <div className="buttons">
         {['a', 'e', 'i', 'o', 'u'].map(letter => (
-          <button
-            key={letter}
-            className={classNames('button', { 'is-info': letters.includes(letter) })}
-            onClick={() => {
-              updateSearch({
+          <Link
+            to={{
+              search: getSearchWith({
                 letters: letters.includes(letter)
                   ? letters.filter(l => l !== letter)
-                  : [...letters, letter ],
-              })
+                  : [...letters, letter],
+              }),
             }}
+            key={letter}
+            className={classNames('button', { 'is-info': letters.includes(letter) })}
           >
             {letter}
-          </button>
+          </Link>
         ))}
 
-        <button
+        <Link
+          to={{ search: getSearchWith({ letters: null }) }}
           className="button"
-          disabled={letters.length === 0}
-          onClick={() => {
-            updateSearch({ letters: null })
-          }}
         >
           Clear All
-        </button>
+        </Link>
       </div>
     </div>
   )
