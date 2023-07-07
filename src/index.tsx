@@ -3,9 +3,12 @@ import 'bulma/css/bulma.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import './index.css';
 import { App } from './App';
+import { BrowserRouter } from 'react-router-dom';
 
 const Root = () => (
-  <App />
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
 );
 
 const root = ReactDOM.createRoot(

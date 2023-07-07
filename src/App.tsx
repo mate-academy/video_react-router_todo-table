@@ -1,26 +1,23 @@
-import { todos } from './data/todos';
-import { TodoTable } from './components/TodoTable';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { MainNav } from './components/MainNav';
+import { TodosPage } from './pages/TodosPage';
 
 export const App = () => {
+  
   return <>
-    <nav className="navbar is-light px-3">
-      <div className="navbar-brand">
-        <a href="/" className="navbar-item">
-          <img src="/logo.svg" alt="MA" className="logo" />
-        </a>
-
-        <a href="/" className="navbar-item">Home</a>
-        <a href="todos" className="navbar-item">Todos</a>
-      </div>
-    </nav>
+    <MainNav />
 
     <div className="section">
-      <h1 className="title">Todos Page</h1>
+      <Routes>
+        <Route path="todos">
+            <Route index element={<TodosPage />} />
+            <Route path=":todoId" element={<TodosPage />} />
+        </Route>
 
-      <TodoTable
-        todos={todos}
-        selectedTodoId={3}
-      />
+        <Route path='/' element={<h1 className="title">Home Page</h1>} />
+        <Route path='/home' element={<Navigate to='/' replace />}/>
+        <Route path='*' element={<p>Page NOT found</p>} />
+      </Routes>
     </div>
   </>;
 };
